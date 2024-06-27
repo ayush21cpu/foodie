@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "357806262622",
+    "project_id": "food-delivery-clone-88149",
+    "storage_bucket": "food-delivery-clone-88149.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357806262622:android:55a5ab9a8abb4f407d67cf",
+        "android_client_info": {
+          "package_name": "com.example.amazon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxsywwTtfEFA7pAnxXSkLKaaYn1wVafpE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357806262622:android:e934bbdf9e72211b7d67cf",
+        "android_client_info": {
+          "package_name": "com.example.food_delivery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxsywwTtfEFA7pAnxXSkLKaaYn1wVafpE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
