@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:food_delivery/Common/Style/text.dart';
+import 'package:food_delivery/Screens/details.dart';
 import 'package:food_delivery/models/ListProducts.dart';
 import 'package:food_delivery/models/topProducts.dart';
 
@@ -125,60 +126,74 @@ class _Home_ScreenState extends State<Home_Screen> {
                 scrollDirection: Axis.horizontal,
                 itemCount: topProdus.length,
                 itemBuilder: (context, index){
-                 return Card(
-                elevation: 2.5,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Image.asset(topProdus[index].imagePath,width: 100,height: 100,),
-                      Text(topProdus[index].title,style:TitleText.titleTextFieldStyle(),),
-                      Text(topProdus[index].subTitle,style: SubTitleText.subTitleTextFieldStyle(),),
-                      Text(topProdus[index].prize),
-                    ],
-                  ),
-                ),
+                 return GestureDetector(
+                   onTap: (){
+                     Navigator.pushNamed(context, Details_Screen.id);
+                   },
+                   child: Card(
+                                   elevation: 5 ,
+                                   margin: const EdgeInsets.only(right: 10,left: 10,bottom: 10,),
+                                   child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Image.asset(topProdus[index].imagePath,width: 100,height: 100,),
+                        Text(topProdus[index].title,style:TitleText.titleTextFieldStyle(),),
+                        Text(topProdus[index].subTitle,style: SubTitleText.subTitleTextFieldStyle(),),
+                        Text(topProdus[index].prize),
+                      ],
+                    ),
+                                   ),
 
-                               );
+                                 ),
+                 );
                               },
                               ),
              ),
-          const SizedBox(height: 20,),
+          // const SizedBox(height: 5,),
         //ListProducts ListView
-          Flexible(
+          Expanded(
             child: Container(
-              height: 270,
-              margin: const EdgeInsets.only(left: 10,right: 10),
+              height: 299,
+              margin: const EdgeInsets.only(left: 10,right: 10,),
               child: ListView.builder(
                   itemCount: ListProdus.length,
                   itemBuilder: (context,index){
-                 return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                       children: [
-                         Image.asset(ListProdus[index].imagePath,width: 99,height: 99,),
-                         const SizedBox(width: 8),
-                         Expanded(
-                           child: Padding(
-                             padding: const EdgeInsets.all(8.0),
-                             child: Column(
-                               crossAxisAlignment: CrossAxisAlignment.start,
-                               children: [
-                                 Text(ListProdus[index].title,style: TitleText.titleTextFieldStyle().copyWith(fontSize: 15), maxLines: 3,
-                               overflow: TextOverflow.ellipsis,), // Handle text overflow
-                                 Text(ListProdus[index].subTitle,style: SubTitleText.subTitleTextFieldStyle(),),
+                 return GestureDetector(
+                 onTap: () {
+                   Navigator.pushNamed(context, Details_Screen.id);
+                 },
+                   child: Card(
+                     margin: EdgeInsets.only(bottom: 30),
+                     elevation: 3,
+                     color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                         children: [
+                           Image.asset(ListProdus[index].imagePath,width: 99,height: 99,),
+                           const SizedBox(width: 18),
+                           Expanded(
+                             child: Padding(
+                               padding: const EdgeInsets.all(8.0),
+                               child: Column(
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                 children: [
+                                   Text(ListProdus[index].title,style: TitleText.titleTextFieldStyle().copyWith(fontSize: 15), maxLines: 3,
+                                 overflow: TextOverflow.ellipsis,), // Handle text overflow
+                                   Text(ListProdus[index].subTitle,style: SubTitleText.subTitleTextFieldStyle(),),
 
-                                 Text(ListProdus[index].prize,textAlign: TextAlign.right,),
-                               ],
+                                   Text(ListProdus[index].prize,textAlign: TextAlign.right,),
+                                 ],
+                               ),
                              ),
-                           ),
-                         )
-                       ],
-                     ),
-                  ),
-                 
-                               );
+                           )
+                         ],
+                       ),
+                    ),
+
+                                 ),
+                 );
               }),
             ),
           )
