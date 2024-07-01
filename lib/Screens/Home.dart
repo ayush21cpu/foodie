@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:food_delivery/Common/Style/text.dart';
+import 'package:food_delivery/Screens/bottomnav.dart';
 import 'package:food_delivery/Screens/details.dart';
 import 'package:food_delivery/models/ListProducts.dart';
 import 'package:food_delivery/models/topProducts.dart';
@@ -19,6 +20,11 @@ class Home_Screen extends StatefulWidget {
 class _Home_ScreenState extends State<Home_Screen> {
   var UserName = "Ayush";
   int? selectedIndex;
+  @override
+  void initState() {
+    BottomNav();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

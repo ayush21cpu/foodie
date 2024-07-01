@@ -73,7 +73,11 @@ class _Details_ScreenState extends State<Details_Screen> {
             ),
             const SizedBox(height: 20,),
             Text("hare krishna hare krishna krishna krishna hare hare, hare ram hare ram ram ram hare hare",style:SubTitleText.subTitleTextFieldStyle(),),
-            const SizedBox(height: 30,),
+            const SizedBox(height: 25,),
+
+            const Divider(height: 2,thickness:2,),
+            const Divider(height: 5,),
+
             //delivery Time
             Row(
               children: [
@@ -85,7 +89,11 @@ class _Details_ScreenState extends State<Details_Screen> {
               ],
             ),
 
+            const Divider(height: 5,),
+            const Divider(height: 2,thickness:2,),
+
             const Spacer(),
+             //price and add cart
              Row(
               children: [
                 Column(

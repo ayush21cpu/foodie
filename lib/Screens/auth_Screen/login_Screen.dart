@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:food_delivery/Common/widget/TextFormButton.dart';
-import 'package:food_delivery/Screens/auth/singup_Screen.dart';
+import 'package:food_delivery/Screens/auth_Screen/forgotPassword.dart';
+import 'package:food_delivery/Screens/bottomnav.dart';
 import '../Home.dart';
+import 'singup_Screen.dart';
 
 
 var logedInUser;
@@ -34,7 +38,7 @@ void dispose() {
   login(String email,String password) async {
     try{
       UserCredential userCredential=await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      Navigator.pushNamed(context, Home_Screen.id);
+      Navigator.pushNamedAndRemoveUntil(context, BottomNav.id,(route) => false,);
     }on FirebaseAuthException catch(e){
       e.code.toString();
     }
@@ -171,7 +175,9 @@ void dispose() {
                         Container(
                           alignment: Alignment.topRight,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, ForgotPassword_Screen.id);
+                            },
                             child: const Text(
                               "Forgot Password?",
                               style: TextStyle(
@@ -198,7 +204,7 @@ void dispose() {
 
                             }
                           },
-                          child: const Text("SIGN UP"),
+                          child: const Text("LogIn"),
                         ),
                       ],
                     ),
@@ -209,7 +215,7 @@ void dispose() {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Already have an account?",
+                      "Don't have account?",
                       style: TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w700),
                     ),
@@ -218,7 +224,7 @@ void dispose() {
                         Navigator.pushNamed(context, SingUp_Screen.id);
                       },
                       child: const Text(
-                        "LogIn",
+                        "Sing Up",
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 20,

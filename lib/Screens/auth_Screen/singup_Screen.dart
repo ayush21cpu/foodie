@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/Common/widget/TextFormButton.dart';
-import 'package:food_delivery/Screens/Home.dart';
+import 'package:food_delivery/Screens/bottomnav.dart';
 
 import 'login_Screen.dart';
 
@@ -31,7 +31,7 @@ class _SingUp_ScreenState extends State<SingUp_Screen> {
   Future<void> registration(String email,String password) async {
     try{
       UserCredential userCredential=await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-      Navigator.pushNamed(context, Home_Screen.id);
+      Navigator.pushNamedAndRemoveUntil(context, BottomNav.id,(route) => false,);
 
 
     }on FirebaseAuthException catch(e){
