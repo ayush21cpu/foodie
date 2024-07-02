@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:food_delivery/Screens/Home.dart';
 import 'package:food_delivery/Screens/Introduction_Screen/onBoarding_Screen.dart';
 import 'package:food_delivery/Screens/auth_Screen/CheckUser.dart';
@@ -10,14 +12,17 @@ import 'package:food_delivery/Screens/details.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
  Future<void> main() async {
  WidgetsFlutterBinding.ensureInitialized();
+ await dotenv.load(fileName: ".env");
+ Stripe.publishableKey=dotenv.env["API_Key"]!;
+ await Stripe.instance.applySettings();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
-}
+ }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
