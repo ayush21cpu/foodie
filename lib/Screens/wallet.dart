@@ -10,8 +10,10 @@ class Wallet_Screen extends StatefulWidget {
   @override
   State<Wallet_Screen> createState() => _Wallet_ScreenState();
 }
-
 class _Wallet_ScreenState extends State<Wallet_Screen> {
+  var amu;
+   var amountController=TextEditingController();
+     var totalAmount=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +34,7 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
             title: Text("Your Wallet", style: ItalicText.italicTextFieldStyle()),
             visualDensity: const VisualDensity(vertical: 4),
             subtitle: Text(
-              "\$100",
+              totalAmount.toString().trim(),
               style: TitleText.titleTextFieldStyle().copyWith(fontWeight: FontWeight.w600),
             ),
             contentPadding: const EdgeInsets.all(10),
@@ -49,17 +51,35 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                WalletBtn(text: "\$100"),
-                WalletBtn(text: "\$500"),
-                WalletBtn(text: "\$1000"),
-                WalletBtn(text: "\$2000"),
+                WalletBtn(text: "\$100", voidCallBack: () {initPaymentSheet("100");  },),
+                WalletBtn(text: "\$500", voidCallBack: () { initPaymentSheet("500");  },),
+                WalletBtn(text: "\$1000", voidCallBack: () { initPaymentSheet("10000");  },),
+                WalletBtn(text: "\$2000", voidCallBack: () {  initPaymentSheet("20000"); },),
               ],
             ),
           ),
           const SizedBox(height: 40),
           ElevatedButton(
             onPressed: () {
-              initPaymentSheet();
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text("Enter the amount"),
+                  content: TextField(
+                    controller: amountController,
+                    decoration: const InputDecoration(hintText: "Amount"),
+                    keyboardType: TextInputType.number,
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () { Navigator.of(context).pop();
+                      initPaymentSheet(amountController.text.trim());
+                      },
+                      child: Text("Add Money"),
+                    ),
+                  ],
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF008080),
@@ -76,10 +96,10 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
     );
   }
 
-  Future<void> initPaymentSheet() async {
+  Future<void> initPaymentSheet(String amount) async {
     try {
       // 1. Create payment intent on the server
-      final data = await createPaymentIntent(amount: "1000", currency: "usd");
+      final data = await createPaymentIntent(amount: Calculate(amount), currency: "usd");
 
       if (data.isEmpty || !data.containsKey('client_secret')) {
         throw Exception("Failed to create payment intent");
@@ -110,6 +130,10 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
           ),
         ),
       );
+      // Update total amount
+      setState(() {
+        totalAmount += int.parse(amount); // Ensure the UI updates with the new amount
+      });
 
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -117,5 +141,10 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
       );
       rethrow;
     }
+  }
+
+  String Calculate(String amount) {
+     amu=int.parse(amount)*100;
+     return amu.toString().trim();
   }
 }
