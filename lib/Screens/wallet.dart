@@ -1,23 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:food_delivery/Common/Style/text.dart';
 import 'package:food_delivery/Common/widget/walletBtn.dart';
+import 'package:food_delivery/Screens/auth_Screen/singup_Screen.dart';
 import 'package:food_delivery/Stripe/payment.dart';
+import 'package:food_delivery/service/sharedPrefe.dart';
+
+import '../service/database.dart';
 
 class Wallet_Screen extends StatefulWidget {
   const Wallet_Screen({super.key});
-
   @override
   State<Wallet_Screen> createState() => _Wallet_ScreenState();
 }
+
 class _Wallet_ScreenState extends State<Wallet_Screen> {
-  var amu;
-   var amountController=TextEditingController();
-     var totalAmount=0;
+  String? wallet, id;
+  var amountController = TextEditingController();
+  var totalAmount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getsharedpref();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: wallet == null?CircularProgressIndicator():Column(
         children: [
           Material(
             elevation: 2,
@@ -51,10 +63,10 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                WalletBtn(text: "\$100", voidCallBack: () {initPaymentSheet("100");  },),
-                WalletBtn(text: "\$500", voidCallBack: () { initPaymentSheet("500");  },),
-                WalletBtn(text: "\$1000", voidCallBack: () { initPaymentSheet("10000");  },),
-                WalletBtn(text: "\$2000", voidCallBack: () {  initPaymentSheet("20000"); },),
+                WalletBtn(text: "\$100", voidCallBack: () { initPaymentSheet("100"); },),
+                WalletBtn(text: "\$500", voidCallBack: () { initPaymentSheet("500"); },),
+                WalletBtn(text: "\$1000", voidCallBack: () { initPaymentSheet("1000"); },),
+                WalletBtn(text: "\$2000", voidCallBack: () { initPaymentSheet("2000"); },),
               ],
             ),
           ),
@@ -72,9 +84,7 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
                   ),
                   actions: [
                     TextButton(
-                      onPressed: () { Navigator.of(context).pop();
-                      initPaymentSheet(amountController.text.trim());
-                      },
+                      onPressed: () { Navigator.of(context).pop(); initPaymentSheet(amountController.text.trim()); },
                       child: Text("Add Money"),
                     ),
                   ],
@@ -99,7 +109,7 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
   Future<void> initPaymentSheet(String amount) async {
     try {
       // 1. Create payment intent on the server
-      final data = await createPaymentIntent(amount: Calculate(amount), currency: "usd");
+      final data = await createPaymentIntent(amount: calculateAmount(amount), currency: "usd");
 
       if (data.isEmpty || !data.containsKey('client_secret')) {
         throw Exception("Failed to create payment intent");
@@ -130,11 +140,15 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
           ),
         ),
       );
+
       // Update total amount
       setState(() {
-        totalAmount += int.parse(amount); // Ensure the UI updates with the new amount
+        totalAmount = (int.parse(wallet ?? '0')) + int.parse(amount); // Ensure the UI updates with the new amount
       });
-
+      await SharedPreferenceHelper().saveUserWallet(totalAmount.toString());
+      await getsharedpref();
+      print("Updating wallet for id: $id with amount: $totalAmount");
+      await DatabaseMethods().UpdateUserwallet(id!, totalAmount.toString().trim());
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
@@ -143,8 +157,42 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
     }
   }
 
-  String Calculate(String amount) {
-     amu=int.parse(amount)*100;
-     return amu.toString().trim();
+  String calculateAmount(String amount) {
+    return (int.parse(amount) * 100).toString().trim();
+  }
+
+  Future<void> getsharedpref() async {
+    wallet = await SharedPreferenceHelper().getUserWallet();
+    id = await SharedPreferenceHelper().getUserId();
+    setState(() {
+      totalAmount = int.parse(wallet ?? '0'); // Set totalAmount with wallet value
+    });
+    print("Retrieved wallet: $wallet and id: $id");
+  }
+}
+
+class DatabaseMethods {
+  Future<void> UpdateUserwallet(String id, String amount) async {
+    try {
+      DocumentReference docRef = FirebaseFirestore.instance.collection("users").doc(id);
+
+      // Check if the document exists
+      DocumentSnapshot doc = await docRef.get();
+      if (doc.exists) {
+        // Update the document if it exists
+        await docRef.update({"Wallet": amount});
+        print("User wallet updated successfully.");
+      } else {
+        // Handle the case where the document does not exist
+        print("Document with id $id does not exist.");
+        // Optionally, create the document if it does not exist
+        await docRef.set({"Wallet": amount});
+        print("Document created with id $id.");
+      }
+    } catch (e) {
+      // Handle any errors that occur during the update
+      print("Error updating user wallet: $e");
+      throw Exception("Error updating user wallet: $e");
+    }
   }
 }

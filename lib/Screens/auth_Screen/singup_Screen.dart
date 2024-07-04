@@ -2,7 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/Common/widget/TextFormButton.dart';
 import 'package:food_delivery/Screens/bottomnav.dart';
+import 'package:food_delivery/service/database.dart';
+import 'package:food_delivery/service/sharedPrefe.dart';
 import 'package:random_string/random_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_Screen.dart';
 
@@ -29,29 +32,32 @@ class _SingUp_ScreenState extends State<SingUp_Screen> {
     super.dispose();
   }
 
-  Future<void> registration(String email,String password) async {
-    try{
-      UserCredential userCredential=await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-      String Id=randomAlphaNumeric(10);
-      Map<String, dynamic> addUSerInfo={
-        "Name":name.text,
-        "Email":email,
-        "Wallet":"0",
-        "Id":Id,
-
+  Future<void> registration(String email, String password) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+      String Id = randomAlphaNumeric(10);
+      Map<String, dynamic> addUSerInfo = {
+        "Name": name.text,
+        "Email": email,
+        "Wallet": "0",
+        "Id": Id,
       };
+      await DatabaseMethods().addUserDetail(addUSerInfo, Id);
+      await SharedPreferenceHelper().saveUserName(name.text.trim());
+      await SharedPreferenceHelper().saveUserEmail(email);
+      await SharedPreferenceHelper().saveUserId(Id);
+      await SharedPreferenceHelper().saveUserWallet("0");
 
-      Navigator.pushNamedAndRemoveUntil(context, BottomNav.id,(route) => false,);
-
-
-    }on FirebaseAuthException catch(e){
-      SnackBar(duration: Duration(seconds: 3),
-        content: Text(e.code.toString()),
+      Navigator.pushNamedAndRemoveUntil(context, BottomNav.id, (route) => false);
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.code.toString()),
+          duration: Duration(seconds: 3),
+        ),
       );
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +158,6 @@ class _SingUp_ScreenState extends State<SingUp_Screen> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              // Handle signup logic here
                               registration(email.text.trim(), password.text.trim());
                             }
                           },
