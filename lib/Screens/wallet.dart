@@ -6,7 +6,6 @@ import 'package:food_delivery/Common/widget/walletBtn.dart';
 import 'package:food_delivery/Screens/auth_Screen/singup_Screen.dart';
 import 'package:food_delivery/Stripe/payment.dart';
 import 'package:food_delivery/service/sharedPrefe.dart';
-
 import '../service/database.dart';
 
 class Wallet_Screen extends StatefulWidget {
