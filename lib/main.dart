@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-     initialRoute:LogInAdmin_Screen.id,
+     initialRoute:CheckUser.id,
       routes: {
         LogInAdmin_Screen.id:(context)=> LogInAdmin_Screen(),
         CheckUser.id:(context)=> const CheckUser(),

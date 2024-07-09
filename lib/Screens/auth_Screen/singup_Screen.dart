@@ -5,8 +5,6 @@ import 'package:food_delivery/Screens/bottomnav.dart';
 import 'package:food_delivery/service/database.dart';
 import 'package:food_delivery/service/sharedPrefe.dart';
 import 'package:random_string/random_string.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'login_Screen.dart';
 
 class SingUp_Screen extends StatefulWidget {
@@ -23,6 +21,7 @@ class _SingUp_ScreenState extends State<SingUp_Screen> {
   var name = TextEditingController();
   var email = TextEditingController();
   var password = TextEditingController();
+  var Id = randomAlphaNumeric(10);
 
   @override
   void dispose() {
@@ -35,7 +34,10 @@ class _SingUp_ScreenState extends State<SingUp_Screen> {
   Future<void> registration(String email, String password) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-      String Id = randomAlphaNumeric(10);
+
+      // Ensure user ID is generated correctly
+      print("Generated user ID: $Id");
+
       Map<String, dynamic> addUSerInfo = {
         "Name": name.text,
         "Email": email,
@@ -47,6 +49,9 @@ class _SingUp_ScreenState extends State<SingUp_Screen> {
       await SharedPreferenceHelper().saveUserEmail(email);
       await SharedPreferenceHelper().saveUserId(Id);
       await SharedPreferenceHelper().saveUserWallet("0");
+
+      // Debugging statements to verify the ID is saved
+      print("User ID saved: $Id");
 
       Navigator.pushNamedAndRemoveUntil(context, BottomNav.id, (route) => false);
     } on FirebaseAuthException catch (e) {

@@ -16,7 +16,7 @@ class CheckUser extends StatelessWidget {
       final User= FirebaseAuth.instance.currentUser;
 
       if(User!=null){
-        return BottomNav();
+        return const BottomNav();
       }else{
         return const OnBorarding_Screen();
       }
