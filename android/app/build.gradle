@@ -69,5 +69,5 @@ flutter {
 }
 
 dependencies {
-        implementation 'com.stripe:stripe-android:20.44.2'
+        implementation 'com.stripe:stripe-android:17.1.1'
 }

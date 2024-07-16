@@ -101,7 +101,7 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
                 context: context,
                 builder: (context) =>
                     AlertDialog(
-                      title: const Text("Enter the amount"),
+                      title: Text("Enter the amount",style:BoldText.boldTextFieldStyle()),
                       content: TextField(
                         controller: amountController,
                         decoration: const InputDecoration(hintText: "Amount"),
@@ -113,7 +113,7 @@ class _Wallet_ScreenState extends State<Wallet_Screen> {
                             Navigator.of(context).pop();
                             initPaymentSheet(amountController.text.trim());
                           },
-                          child: const Text("Add Money"),
+                          child:  Text("Add Money",style:BoldText.boldTextFieldStyle().copyWith(color:Colors.blueAccent)),
                         ),
                       ],
                     ),

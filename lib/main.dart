@@ -10,7 +10,9 @@ import 'package:food_delivery/Screens/auth_Screen/singup_Screen.dart';
 import 'package:food_delivery/Screens/bottomnav.dart';
 import 'package:food_delivery/Screens/details.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:food_delivery/admin/logIn.dart';
+import 'package:food_delivery/admin/AddItem_Screen.dart';
+import 'package:food_delivery/admin/AdminLogIn.dart';
+import 'package:food_delivery/admin/HomeAdmin.dart';
 import 'firebase_options.dart';
 
  Future<void> main() async {
@@ -37,8 +39,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-     initialRoute:CheckUser.id,
+     initialRoute:BottomNav.id,
       routes: {
+        AddItem_Screen.id:(context)=>const AddItem_Screen(),
+        AdminHome_Screen.id:(context)=>const AdminHome_Screen(),
         LogInAdmin_Screen.id:(context)=> LogInAdmin_Screen(),
         CheckUser.id:(context)=> const CheckUser(),
         ForgotPassword_Screen.id:(context)=> ForgotPassword_Screen(),

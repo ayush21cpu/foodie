@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:food_delivery/Common/Style/text.dart';
 import 'package:food_delivery/Common/widget/TextFormButton.dart';
 import 'package:food_delivery/Screens/auth_Screen/forgotPassword.dart';
 import 'package:food_delivery/Screens/bottomnav.dart';
-
+import 'package:food_delivery/admin/HomeAdmin.dart';
 import '../Screens/auth_Screen/singup_Screen.dart';
 
 
@@ -35,10 +37,24 @@ class _LogInAdmin_ScreenState extends State<LogInAdmin_Screen> {
 
   }
 
-  login(String email,String password) async {
+  Adminlogin(String email,String password) async {
     try{
-      UserCredential userCredential=await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      Navigator.pushNamedAndRemoveUntil(context, BottomNav.id,(route) => false,);
+      await FirebaseFirestore.instance.collection("Admin").get().then((snapshot) {
+        snapshot.docs.forEach((result) {
+          if(result.data()['email']!=email.toString().trim()){
+             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(backgroundColor:Colors.red,content: Text(
+               'Your email is not correct',
+             )));
+          }else if(result.data()['password']!=password.toString().trim()){
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(backgroundColor:Colors.red,content: Text(
+              'Your password is not correct',
+            )));
+          }else{
+            Navigator.pushReplacementNamed(context, AdminHome_Screen.id);
+          }
+        });
+      });
+
     }on FirebaseAuthException catch(e){
       e.code.toString();
     }
@@ -77,21 +93,16 @@ class _LogInAdmin_ScreenState extends State<LogInAdmin_Screen> {
             height: MediaQuery
                 .of(context)
                 .size
-                .height / 2.5,
+                .height ,
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFFff5c30),
-                  Color(0xFFe74b1a),
-                ],
-              ),
+              color: Color(0x4E9E9EFF),
             ),
           ),
           Container(
             margin: EdgeInsets.only(top: MediaQuery
                 .of(context)
                 .size
-                .height / 3),
+                .height / 2),
             width: MediaQuery
                 .of(context)
                 .size
@@ -100,11 +111,14 @@ class _LogInAdmin_ScreenState extends State<LogInAdmin_Screen> {
                 .of(context)
                 .size
                 .height,
-            decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(40),
-                topLeft: Radius.circular(40),
+            decoration:  BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 53, 51, 51),
+                  Colors.black,
+                ],
+              ),
+              borderRadius: BorderRadius.vertical(top: Radius.elliptical(MediaQuery.of(context).size.width, 110.0)
               ),
             ),
           ),
@@ -114,13 +128,8 @@ class _LogInAdmin_ScreenState extends State<LogInAdmin_Screen> {
                 Center(
                   child: Container(
                     margin: const EdgeInsets.only(top: 60, left: 20, right: 20),
-                    child: Image.asset(
-                      "images/logo.png",
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width / 2,
-                      fit: BoxFit.cover,
+                    child: Text(
+                      "Let's start with \n Admin",style: BoldText.boldTextFieldStyle().copyWith(fontSize: 30),textAlign: TextAlign.start,
                     ),
                   ),
                 ),
@@ -141,14 +150,6 @@ class _LogInAdmin_ScreenState extends State<LogInAdmin_Screen> {
                     ),
                     child: Column(
                       children: [
-                        const Text(
-                          "LogIn",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            color: Colors.black,
-                            fontSize: 25,
-                          ),
-                        ),
                         Form(
                           key: _formKey,
                           child: Column(
@@ -159,6 +160,7 @@ class _LogInAdmin_ScreenState extends State<LogInAdmin_Screen> {
                                 icon: const Icon(Icons.email),
                                 obscureText: false,
                                 valid: "Email",
+                                TextInputType:TextInputType.emailAddress,
                               ),
                               TextFormButton(
                                 controller: password,
@@ -189,21 +191,27 @@ class _LogInAdmin_ScreenState extends State<LogInAdmin_Screen> {
                           ),
                         ),
                         const SizedBox(height: 50),
-                        ElevatedButton(
-                          style: const ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                                Color(0xFFe74b1a)),
-                            foregroundColor: MaterialStatePropertyAll(
-                                Colors.white),
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              // Handle signup logic here
-                              login(email.text.trim(), password.text.trim());
+                        Container(
+                          margin: const EdgeInsets.only(top: 10,bottom: 50),
+                          width: MediaQuery.of(context).size.width/1,
+                          height: 50,
+                          child: ElevatedButton(
+                            style:  const ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                  Colors.black),
+                              foregroundColor: MaterialStatePropertyAll(
+                                  Colors.white),
+                              shape: MaterialStatePropertyAll( RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))))
+                            ),
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                // Handle signup logic here
+                                Adminlogin(email.text.trim(), password.text.trim());
 
-                            }
-                          },
-                          child: const Text("LogIn"),
+                              }
+                            },
+                            child: const Text("LogIn",style:TextStyle(fontSize: 20),),
+                          ),
                         ),
                       ],
                     ),
