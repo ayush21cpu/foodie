@@ -18,14 +18,17 @@ class Home_Screen extends StatefulWidget {
   State<Home_Screen> createState() => _Home_ScreenState();
 }
 class _Home_ScreenState extends State<Home_Screen> {
-  var UserName = SharedPreferenceHelper().getUserName().toString();
+  var UserName;
   int? selectedIndex;
-
+  getSharedPrefe()async{
+    UserName=await SharedPreferenceHelper().getUserName();
+     }
 
 
 
   @override
   void initState() {
+    getSharedPrefe();
     BottomNav();
     super.initState();
   }
@@ -45,7 +48,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: Text(
-                    "Hello ${UserName},",
+                    "Hello $UserName,",
                     style: BoldNameText.boldNameTextFieldStyle(),
                   ),
                 ),

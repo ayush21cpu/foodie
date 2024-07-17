@@ -10,6 +10,7 @@ import 'package:food_delivery/Screens/auth_Screen/singup_Screen.dart';
 import 'package:food_delivery/Screens/bottomnav.dart';
 import 'package:food_delivery/Screens/details.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:food_delivery/Screens/profile.dart';
 import 'package:food_delivery/admin/AddItem_Screen.dart';
 import 'package:food_delivery/admin/AdminLogIn.dart';
 import 'package:food_delivery/admin/HomeAdmin.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         OnBorarding_Screen.id:(context)=>const OnBorarding_Screen(),
         BottomNav.id:(context)=>const BottomNav(),
         Details_Screen.id:(context)=>const Details_Screen(),
+        Profile_Screen.id:(context)=>const Profile_Screen(),
         SingUp_Screen.id:(context)=> SingUp_Screen(),
         LogIn_Screen.id:(context)=> LogIn_Screen(),
         Home_Screen.id:(context)=> Home_Screen(),
