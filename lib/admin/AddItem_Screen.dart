@@ -130,7 +130,7 @@ class _AddItem_ScreenState extends State<AddItem_Screen> {
   UploadItem() async {
     if(selectedImage!=null &&name.text!=null&& price.text!=null&&detail.text!=null&&selectedCategory!=null){
       String addId=randomAlphaNumeric(10);
-      Reference firebaseStorageRef=FirebaseStorage.instance.ref().child("\blogImages").child(addId);
+      Reference firebaseStorageRef=FirebaseStorage.instance.ref().child("blogImages/").child(addId);
       final UploadTask task =firebaseStorageRef.putFile(selectedImage!);
 
       var downloadUrl=await (await task).ref.getDownloadURL();

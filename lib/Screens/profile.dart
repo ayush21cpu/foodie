@@ -10,6 +10,22 @@ class Profile_Screen extends StatefulWidget {
 class _Profile_ScreenState extends State<Profile_Screen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      child: Column(
+        children: [
+          Stack(
+            children:[ Container(
+              height: MediaQuery.of(context).size.height/5,
+              decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(MediaQuery.of(context).size.width/2, 50))),
+            ),
+              SizedBox(height: 20,),
+              Center(child:  CircleAvatar(radius:70,backgroundImage: AssetImage("images/food.png"),))
+          ]
+          ),
+        ],
+      ),
+    );
   }
 }
