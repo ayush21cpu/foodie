@@ -22,6 +22,8 @@ class _Home_ScreenState extends State<Home_Screen> {
   int? selectedIndex;
   getSharedPrefe()async{
     UserName=await SharedPreferenceHelper().getUserName();
+    setState(() {
+    });
      }
 
 

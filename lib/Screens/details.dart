@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:food_delivery/Common/Style/text.dart';
 import 'package:food_delivery/Screens/Home.dart';
+import 'package:food_delivery/Screens/bottomnav.dart';
 
 class Details_Screen extends StatefulWidget {
   static const String id="Details_Screen";
@@ -23,7 +24,7 @@ class _Details_ScreenState extends State<Details_Screen> {
           children: [
                 GestureDetector(
                     onTap: (){
-                      Navigator.pushNamed(context, Home_Screen.id);
+                      Navigator.pushNamed(context, BottomNav.id);
                     },
                     child: const Icon(Icons.arrow_back_ios_new_outlined,)),
                 Image.asset("images/salad2.png",width: MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height/2.5,),
