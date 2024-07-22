@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:food_delivery/Screens/auth_Screen/login_Screen.dart';
 import 'package:food_delivery/Screens/bottomnav.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
-
 import '../service/sharedPrefe.dart';
 
 class Profile_Screen extends StatefulWidget {

@@ -9,11 +9,11 @@ class TopProducts{
 }
 List<TopProducts> topProdus=[
   TopProducts(imagePath: "images/salad2.png", title: "Veggie Taco Hash", subTitle: "Fresh and Healthy", prize: "\$25"),
-  TopProducts(imagePath: "images/salad3.png", title: "Mix Veg Salad", subTitle: "Spicy with Onion", prize: "\$28"),
+  TopProducts(imagePath: "images/salad3.png", title: "Mix Veg Salad", subTitle: "Spicy with Onion", prize: "\$25"),
   TopProducts(imagePath: "images/salad2.png", title: "Veggie Taco Hash", subTitle: "Fresh and Healthy", prize: "\$25"),
-  TopProducts(imagePath: "images/salad3.png", title: "Mix Veg Salad", subTitle: "Spicy with Onion", prize: "\$28"),
+  TopProducts(imagePath: "images/salad3.png", title: "Mix Veg Salad", subTitle: "Spicy with Onion", prize: "\$25"),
   TopProducts(imagePath: "images/salad2.png", title: "Veggie Taco Hash", subTitle: "Fresh and Healthy", prize: "\$25"),
-  TopProducts(imagePath: "images/salad3.png", title: "Mix Veg Salad", subTitle: "Mediterranean Chickpea Salad", prize: "\$28"),
+  TopProducts(imagePath: "images/salad3.png", title: "Mix Veg Salad", subTitle: "Mediterranean Chickpea Salad", prize: "\$25"),
 
 
 ];
